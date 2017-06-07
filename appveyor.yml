@@ -1,11 +1,13 @@
 clone_depth: 5
 environment:
+  nodejs_version: "6"
   access_token:
     secure: sJfToF6scFmbvoKx0pZ9N+xbCcWNdS53L3Eo00hEW0CJKdLq8c/81DDThsOnX7HI
 install:
+- ps: Install-Product node $env:nodejs_version
 - node --version
 - npm --version
-- appveyor-retry npm install
+- npm install
 build_script:
 - npm start
 artifacts:
