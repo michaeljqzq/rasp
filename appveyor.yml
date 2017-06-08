@@ -33,7 +33,9 @@ on_success:
     cd %TEMP%\static-site-prod &
     del * /f /q &
     for /d %%p IN (*) do rmdir "%%p" /s /q &
+    echo "MJ BEFORE ROBOCOPY" &
     SETLOCAL EnableDelayedExpansion & robocopy "%APPVEYOR_BUILD_FOLDER%\build" "%TEMP%\static-site-prod" /e & IF !ERRORLEVEL! EQU 1 (exit 0) ELSE (IF !ERRORLEVEL! EQU 3 (exit 0) ELSE (exit 1)) &
+    echo "MJ AFTER ROBOCOPY" &
     git add -A &
     if "%APPVEYOR_REPO_BRANCH%"=="source" if not defined APPVEYOR_PULL_REQUEST_NUMBER (git diff --quiet --exit-code --cached || git commit -m "Update Static Site" && git push origin %TARGET_BRANCH_PROD% && appveyor AddMessage "PROD Site Updated")
   )
